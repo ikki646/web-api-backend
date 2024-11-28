@@ -185,10 +185,10 @@ app.post('/money-raised/add', async (req, res) => {
     let client;
 
     try {
-        const { value } = req.body;
+        let { value } = req.body;
+        value = Number(value);
 
-        // Validate the input
-        if (typeof value !== 'number') {
+        if (isNaN(value)) {
             return res.status(400).json({ error: "A numeric 'value' is required in the body." });
         }
 
