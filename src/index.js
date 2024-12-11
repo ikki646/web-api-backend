@@ -13,6 +13,8 @@ const userName = process.env.USER_NAME;
 const userPassword = process.env.USER_PASSWORD;
 const clusterName = process.env.CLUSTER_NAME;
 const dbName = process.env.DB_NAME;
+const adminPassword = process.env.ADMIN_PASSWORD;
+const normalPassword = process.env.NORMAL_PASSWORD;
 
 const timeCollection = "StartTime";
 const moneyCollection = "MoneyRaised";
@@ -247,6 +249,18 @@ app.get('/money-raised', async (req, res) => {
             await client.close();
         }
     }
+});
+
+app.post('/login', (req, res) => {
+  const { password } = req.body;
+
+  if (password === normalPassword) {
+    res.send('hbd-user');
+  } else if (password === adminPassword) {
+    res.send('hbd-admin');
+  } else {
+    res.status(401).send('incorrect password');
+  }
 });
 
 app.listen(port, () => {
